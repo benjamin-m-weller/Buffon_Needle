@@ -56,54 +56,18 @@ def print_data_to_excel(data):
     from openpyxl.chart import BarChart, Series, Reference
 
     def create_chart(data):
-        # Create a workbook.....
-        # book = Workbook()
-        # sheet = book.get_active_sheet()
-        #
-        # rows = [
-        #     ("USA", 46),
-        #     ("China", 38),
-        #     ("UK", 29),
-        #     ("Russia", 22),
-        #     ("South Korea", 13),
-        #     ("Germany", 11)
-        # ]
-        #
-        # for row in rows:
-        #     sheet.append(row)
-        #
-        # data = Reference(sheet, min_col=2, min_row=1, max_col=2, max_row=6)
-        # categs = Reference(sheet, min_col=1, min_row=1, max_row=6)
-        #
-        # # reference_data = Reference(ws, min_col=4, min_row=1, max_row=ws.max_row)
-        # # cats = Reference(ws, min_col=1, min_row=2, max_row=ws.max_row)
-        #
-        # chart = BarChart()
-        # chart.add_data(data=data)
-        # chart.set_categories(categs)
-        #
-        # chart.legend = None
-        # chart.y_axis.majorGridlines = None
-        # chart.varyColors = True
-        # chart.title = "Olympic Gold medals in London"
-        #
-        # sheet.add_chart(chart, "A8")
-        #
-        # book.save("bar_chart.xlsx")
-
-
         workbook = Workbook()
         ws = workbook.get_active_sheet()
 
         for row in data:
             if data.index(row)==0:
                 iteration, hits, throws, pi = row
-                ws.append((iteration, pi))
+                ws.append((iteration, pi, "Actual Value of Pi"))
                 continue
 
             iteration, hits, throws, pi = row
             addPi=float(pi)
-            ws.append((iteration, addPi))
+            ws.append((iteration, addPi, math.pi))
 
         chart1 = BarChart()
         chart1.type = "col"
@@ -111,15 +75,12 @@ def print_data_to_excel(data):
         chart1.title = "Buffon's Needle"
         chart1.y_axis.title = 'Estimate of Pi'
         chart1.x_axis.title = 'Iteration'
-        # chart1.y_axis.majorGridlines = math.pi
 
-        # data = Reference(sheet, min_col=2, min_row=1, max_col=2, max_row=6)
-        # categs = Reference(sheet, min_col=1, min_row=1, max_row=6)
-        reference_data = Reference(ws, min_col=2, max_col=2, min_row=1, max_row=ws.max_row)
-        cats = Reference(ws, min_col=1, min_row=2, max_row=ws.max_row)
+        reference_data = Reference(ws, min_col=2, max_col=3, min_row=1, max_row=ws.max_row)
+        categories = Reference(ws, min_col=1, min_row=2, max_row=ws.max_row)
 
         chart1.add_data(reference_data, titles_from_data=True)
-        chart1.set_categories(cats)
+        chart1.set_categories(categories)
 
         chart1.shape = 4
         ws.add_chart(chart1, "F1")
