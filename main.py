@@ -94,9 +94,16 @@ def print_data_to_excel(data):
         create_chart(data)
 
 
+def print_data(data):
+    tuple_for_excel = data.pop(0)
+    for row in data:
+        iteration, hits, throws, pi=row
+        print("Iteration: " + iteration + " Hits: " + hits + " Throws: " + throws + " Pi: " + pi)
+    data.insert(0, tuple_for_excel)
+
 if __name__=="__main__":
     data=throw_needles(1000)
-    # print_data(data)
+    print_data(data)
     try:
         print_data_to_excel(data)
     except Exception:
